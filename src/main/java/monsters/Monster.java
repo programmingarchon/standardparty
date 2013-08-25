@@ -1,24 +1,17 @@
 package monsters;
 
+import room.Room;
+
 public class Monster {
     private String name;
     private int currentHp;
     private int strength;
+    private Room room;
 
     public Monster() {}
 
-    public Monster(int currentHp, int strength, String name) {
-        this.currentHp = currentHp;
-        this.strength = strength;
-        this.name = name;
-    }
-
     public int getCurrentHp() {
         return currentHp;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
     }
 
     public int getStrength() {
@@ -50,5 +43,18 @@ public class Monster {
 
     public void loseHP(int damage){
         currentHp -= damage;
+    }
+
+    public void takeAction() {
+        Monster target = room.getOtherCharactersOf(this).get(0);
+        attack(target);
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

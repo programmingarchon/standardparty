@@ -2,27 +2,30 @@ package monsters;
 
 import org.junit.Assert;
 import org.junit.Test;
+import room.Room;
+
+import static org.junit.Assert.assertEquals;
 
 public class MonsterTest {
     @Test
     public void shouldHaveStartingHP() throws Exception {
         Monster monster = new Monster().withHp(20);
 
-        Assert.assertEquals(20, monster.getCurrentHp());
+        assertEquals(20, monster.getCurrentHp());
     }
 
     @Test
     public void shouldHaveStrength() throws Exception {
         Monster monster = new Monster().withStrength(5);
 
-        Assert.assertEquals(5, monster.getStrength());
+        assertEquals(5, monster.getStrength());
     }
 
     @Test
     public void shouldHaveName() throws Exception {
         Monster monster = new Monster().withHp(20).withStrength(5).withName("Fluffy");
 
-        Assert.assertEquals("Fluffy", monster.getName());
+        assertEquals("Fluffy", monster.getName());
     }
 
     @Test
@@ -32,6 +35,18 @@ public class MonsterTest {
 
         monster1.attack(monster2);
 
-        Assert.assertEquals(15, monster2.getCurrentHp());
+        assertEquals(15, monster2.getCurrentHp());
+    }
+
+    @Test
+    public void shouldAttackOthersWhenTakingAction() throws Exception {
+        Room room = new Room();
+        Monster monster1 = new Monster().withHp(20).withStrength(5);
+        Monster monster2 = new Monster().withHp(20).withStrength(5);
+        room.addMonsters(monster1, monster2);
+
+        monster1.takeAction();
+
+        assertEquals(15, monster2.getCurrentHp());
     }
 }
