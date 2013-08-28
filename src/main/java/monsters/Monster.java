@@ -45,6 +45,12 @@ public class Monster {
         currentHp -= damage;
     }
 
+    public void attemptToTakeAction() {
+        if(canTakeAction()) {
+            takeAction();
+        }
+    }
+
     public void takeAction() {
         Monster target = room.getOtherCharactersOf(this).get(0);
         attack(target);
@@ -56,5 +62,17 @@ public class Monster {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public boolean isDead() {
+        return !isAlive();
+    }
+
+    public boolean isAlive() {
+        return currentHp > 0;
+    }
+
+    public boolean canTakeAction() {
+        return room != null && isAlive();
     }
 }

@@ -1,6 +1,5 @@
 package room;
 
-import com.sun.deploy.util.ArrayUtil;
 import monsters.Monster;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class Room {
 
     public void playRound() {
         for (Monster monster : characters) {
-            monster.takeAction();
+            monster.attemptToTakeAction();
         }
     }
 
@@ -39,5 +38,21 @@ public class Room {
         List<Monster> copy = new ArrayList<Monster>(characters);
         copy.remove(monster);
         return copy;
+    }
+
+    public boolean canActionsBeTaken() {
+        return allCombatantsCanTakeAction() && atLeastTwoCombatants();
+    }
+
+    private boolean allCombatantsCanTakeAction() {
+        for (Monster monster : characters) {
+            if(!monster.canTakeAction())
+                return false;
+        }
+        return true;
+    }
+
+    private boolean atLeastTwoCombatants() {
+        return characters.size() >= 2;
     }
 }

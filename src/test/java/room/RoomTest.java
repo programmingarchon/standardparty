@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -52,8 +53,8 @@ public class RoomTest {
 
         room.playRound();
 
-        verify(monster1).takeAction();
-        verify(monster2).takeAction();
+        verify(monster1).attemptToTakeAction();
+        verify(monster2).attemptToTakeAction();
     }
 
     @Test
@@ -63,5 +64,22 @@ public class RoomTest {
         room.addMonsters(monster1, monster2);
 
         assertEquals(monster2, room.getOtherCharactersOf(monster1).get(0));
+    }
+
+    @Test
+    public void shouldBeAbleToDetermineIfActionsCanNotBeTaken() throws Exception {
+        Monster monster = new Monster().withHp(10);
+        room.addMonster(monster);
+
+        assertFalse(room.canActionsBeTaken());
+    }
+
+    @Test
+    public void shouldBeAbleToDetermineIfActionsCanBeTaken() throws Exception {
+        Monster monster1 = new Monster().withHp(10);
+        Monster monster2 = new Monster().withHp(10);
+        room.addMonsters(monster1, monster2);
+
+        assertTrue(room.canActionsBeTaken());
     }
 }
